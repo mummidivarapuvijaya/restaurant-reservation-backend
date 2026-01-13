@@ -3,9 +3,12 @@ const controller = require("./table.controller");
 const auth = require("../../middleware/auth");
 const role = require("../../middleware/role");
 
-router.post("/", auth, role("ADMIN"), controller.createTable);
+// Get all tables - Any authenticated user
 router.get("/", auth, controller.getTables);
-router.get("/tables",auth,role("ADMIN"),async (req, res) => {const tables = await controller.find();res.json(tables);});
 
+// Admin only routes
+router.post("/", auth, role("ADMIN"), controller.createTable);
+router.put("/:id", auth, role("ADMIN"), controller.updateTable);
+router.delete("/:id", auth, role("ADMIN"), controller.deleteTable);
 
 module.exports = router;

@@ -12,16 +12,19 @@ mongoose.connect(process.env.MONGO_URI)
 const tables = [
   { tableNumber: 1, capacity: 2 },
   { tableNumber: 2, capacity: 4 },
-  { tableNumber: 3, capacity: 6 }
+  { tableNumber: 3, capacity: 6 },
+  { tableNumber: 4, capacity: 4 },
+  { tableNumber: 5, capacity: 8 }
 ];
 
 const seedTables = async () => {
   try {
+    await Table.deleteMany({});
     await Table.insertMany(tables);
     console.log("Tables seeded successfully");
     process.exit();
   } catch (error) {
-    console.error("Seeding failed:", error.message);
+    console.error("Failed:", error.message);
     process.exit(1);
   }
 };

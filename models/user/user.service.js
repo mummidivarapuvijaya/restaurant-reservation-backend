@@ -16,8 +16,17 @@ exports.loginUser = async (email, password) => {
 
   const token = jwt.sign(
     { id: user._id, role: user.role },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
   );
 
-  return { token, role: user.role };
+  return { 
+    token, 
+    role: user.role,
+    user: { id: user._id, name: user.name, email: user.email }
+  };
+};
+
+exports.getUserById = async (id) => {
+  return User.findById(id).select("-password");
 };
